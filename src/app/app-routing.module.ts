@@ -10,7 +10,8 @@ import { NopagescomponentComponent } from './nopagescomponent/nopagescomponent.c
 
 const routes: Routes = [
   // Si es un path vacio va a redirecionar a -> home y esto a un -> path: '', component: DashboardComponent
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  // { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 
   // Cualquiera otra ruta que no este definida en este routing va a mostrar NoPagesFound
   { path: '**', component: NopagescomponentComponent },

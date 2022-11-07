@@ -5,6 +5,13 @@ import { CommonModule } from '@angular/common';
 import { AuthRoutingModule } from './auth-routing.module';
 import { PagesRoutingModule } from '../pages/pages-routing.module';
 
+// Formularios reactivos
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// Para peticiones http
+import { HttpClientModule } from "@angular/common/http";
+
+
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -18,7 +25,9 @@ import { RegisterComponent } from './register/register.component';
   imports: [
     CommonModule,
     AuthRoutingModule,
-    PagesRoutingModule
+    PagesRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     LoginComponent,

@@ -40,7 +40,7 @@
 </nav>
 
 
-<div class="container ">
+<div class="container animated fadeIn fast">
 
   <div class="row justify-content-center mt-4">
     <div class="col-5 text-center">
@@ -49,28 +49,35 @@
   </div>
 
   <div class="row justify-content-center p-4 p-sm-0">
-    <form class="col-12 col-sm-8 col-lg-5 col-xl-4 bg-white p-3 form-login">
+    <form class="col-12 col-sm-8 col-lg-5 col-xl-4 bg-white p-3 form-login" id="loginform" autocomplete="off"
+      [formGroup]="this.formulario" (ngSubmit)="login()">
       <div class="text-center mb-4">
         INICIA SESIÓN AQUI
       </div>
+
+      <!-- Campo Email -->
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email</label>
         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-          placeholder="*email" autocomplete="off">
+          placeholder="* email" formControlName="email" autocomplete="off">
         <div id="emailHelp" class="form-text">El email es obligatorio</div>
       </div>
+
+      <!-- Campo contraseñas -->
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="*contraseña"
-          autocomplete="off">
-        <div id="emailHelp" class="form-text">La contraseña es obligatoria</div>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="* contraseña"
+          formControlName="password" autocomplete="off">
+        <div id="passHelp" class="form-text">La contraseña es obligatoria</div>
       </div>
+
+      <!-- Campo recuerdame -->
       <div class="d-flex justify-content-between">
         <div class="align-self-center mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" formControlName="remember">
           <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
         </div>
-        <button type="submit" class="btn btn-primary text-uppercase">Ingresar</button>
+        <button type="submit" class="btn btn-primary text-uppercase">Iniciar Sesión</button>
       </div>
     </form>
   </div>

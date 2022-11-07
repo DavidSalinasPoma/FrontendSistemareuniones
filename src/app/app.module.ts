@@ -22,6 +22,9 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { NopagescomponentComponent } from './nopagescomponent/nopagescomponent.component';
 
+// Formulario reactivos
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -35,6 +38,8 @@ import { NopagescomponentComponent } from './nopagescomponent/nopagescomponent.c
     PagesModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
     ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
