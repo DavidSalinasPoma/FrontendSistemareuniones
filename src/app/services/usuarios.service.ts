@@ -41,5 +41,27 @@ export class UsuariosService {
       )
   }
 
+  /**
+   * ValidarToken
+   */
+  public validarToken(): Observable<boolean> {
+
+    const token = localStorage.getItem('token') || '';
+
+    // Implementando rxjs
+    let tokenInfo$: Observable<string>;
+    tokenInfo$ = of(token);
+    return tokenInfo$.pipe(
+      tap((resp: any) => {
+        // console.log(resp);
+        if (resp != '') {
+          localStorage.setItem('token', resp);
+        }
+      }),
+      map(resp => (resp === '') ? false : true)
+    );
+
+  }
+
 
 }

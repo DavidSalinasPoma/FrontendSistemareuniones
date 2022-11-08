@@ -7,7 +7,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 // Para navegar de una pagina a otra
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
+// Servicios
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
 
@@ -33,8 +35,7 @@ export class LoginComponent implements OnInit {
     this.crearFormulario();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   /**
    * crearFormulario
@@ -51,53 +52,47 @@ export class LoginComponent implements OnInit {
    * login de Usuarios
    */
   public login() {
+
+    // Spinner de ingresando al sistema
     this.cargando = true;
+
     this.usuarioServices.login(this.formulario.value)
       .subscribe(resp => {
 
-        this.router.navigateByUrl('/home');
-        this.cargando = false;
-        // Usuarios del sistema
-        // const userSistema: any = {
-        //   id: resp.users.id,
-        //   nombre: resp.users.persona.nombres,
-        //   paterno: resp.users.persona.ap_paterno,
-        //   materno: resp.users.persona.ap_materno,
-        //   email: resp.users.email,
-        //   fecha: resp.users.created_at
-        // }
+        if (resp.token) {
 
-        // Variables local de usuario autenticado
-        // localStorage.setItem('acces', JSON.stringify(userSistema));
+          this.cargando = false;
 
-        // remember
-        if (this.formulario.get('remember')?.value) {
-          localStorage.setItem('email', this.formulario.get('email')?.value)
+          this.router.navigateByUrl('/home');
+
+          // remember
+          if (this.formulario.get('remember')?.value) {
+            localStorage.setItem('email', this.formulario.get('email')?.value)
+          } else {
+            localStorage.removeItem('email');
+          }
+
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '¡Login correcto!',
+            text: `Bienvenid@ ${resp.identity.nombres} ${resp.identity.apellidos}`,
+            showConfirmButton: false,
+            timer: 2000
+          })
         } else {
-          localStorage.removeItem('email');
+          Swal.fire({
+            icon: 'error',
+            title: 'Credenciales Incorrectas..!',
+            text: 'Vuelva a intentarlo!',
+            footer: 'Gobierno Autónomo Departamental de Cochabamba'
+          })
+          this.cargando = false;
         }
 
-        // console.log(respToken);
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '¡Login correcto!',
-          // text: `Bienvenid@ ${resp.users.persona.nombres} ${resp.users.persona.ap_paterno} ${resp.users.persona.ap_materno}`,
-          showConfirmButton: false,
-          timer: 4000
-        })
-        // Navegar al dashboar
-        // setTimeout(() => {
-        // this.router.navigateByUrl('/');
-        // }, 1000);
-
       }, (err) => {
-        // Si sucede un error
-        // console.log(err);
-
         Swal.fire('Error', err.error.message, 'error')
         this.cargando = false;
-
       }
       )
   }
@@ -109,7 +104,6 @@ export class LoginComponent implements OnInit {
   get descripcion() {
     return this.formulario.get('password');
   }
-
   get remenber() {
     return this.formulario.get('remenber');
   }

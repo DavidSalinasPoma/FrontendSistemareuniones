@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark animated fadeIn fast">
   <div class="container">
     <a class="navbar-brand">
       <img src="../../../assets/img/logo-gobernacion.png" alt="Logo" width="300" class="d-inline-block align-text-top">
@@ -27,7 +27,8 @@
             <li><a class="dropdown-item" href="#">Listar</a></li>
           </ul>
         </li>
-        <li class="nav-item dropdown">
+
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             ROLES
           </a>
@@ -35,11 +36,24 @@
             <li><a class="dropdown-item" href="#">Agregar</a></li>
             <li><a class="dropdown-item" href="#">Listar</a></li>
           </ul>
-        </li>
+        </li> -->
 
       </ul>
       <form class="d-flex" role="search">
-        <a class="text-white-50 text-decoration-none"><i class="bi bi-person-square"></i> David Salinas Poma</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-uppercase" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false"><i class="icono-usuario bi bi-person-square"></i>
+              {{ this.usuario.nombres }} {{ this.usuario.apellidos }}
+            </a>
+            <ul class="dropdown-menu">
+
+              <li><a class="dropdown-item text-uppercase" (click)="this.logout()"><i
+                    class="icono-apagar bi bi-power"></i>
+                  Salir del Sistema</a></li>
+            </ul>
+          </li>
+        </ul>
       </form>
     </div>
   </div>

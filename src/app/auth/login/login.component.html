@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark animated fadeIn fast">
   <div class="container">
     <a class="navbar-brand">
       <img src="../../../assets/img/logo-gobernacion.png" alt="Logo" width="300" class="d-inline-block align-text-top">
@@ -49,8 +49,21 @@
   </div>
 
   <div class="row justify-content-center p-4 p-sm-0">
+
+
     <form class="col-12 col-sm-8 col-lg-5 col-xl-4 bg-white p-3 form-login" id="loginform" autocomplete="off"
       [formGroup]="this.formulario" (ngSubmit)="login()">
+
+      <div *ngIf="this.cargando" class="alert alert-success d-flex justify-content-center animated fadeIn fast"
+        role="alert">
+        <div class="spinner-grow text-success" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="ms-2 align-self-center">
+          Ingresando al Sistema..
+        </div>
+      </div>
+
       <div class="text-center mb-4">
         INICIA SESIÓN AQUI
       </div>

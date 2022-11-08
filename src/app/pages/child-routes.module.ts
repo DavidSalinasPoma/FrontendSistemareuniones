@@ -5,6 +5,9 @@ import { NgModule } from '@angular/core';
 // Componetes de PAGES
 import { HomeComponent } from './home/home.component';
 
+// Componentes de APP
+import { LoginComponent } from '../auth/login/login.component';
+
 
 const routes: Routes = [
     // Home
