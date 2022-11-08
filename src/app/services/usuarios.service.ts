@@ -31,7 +31,7 @@ export class UsuariosService {
    * login
    */
   public login(formData: Usuario) {
-    console.log(formData);
+    // console.log(formData);
 
     return this.http.post(`${base_url}/api/login`, formData)
       .pipe(

@@ -23,21 +23,11 @@
             REUNIONES
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Agregar</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#myModal_agregar">Agregar</a>
+            </li>
             <li><a class="dropdown-item" href="#">Listar</a></li>
           </ul>
         </li>
-
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ROLES
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Agregar</a></li>
-            <li><a class="dropdown-item" href="#">Listar</a></li>
-          </ul>
-        </li> -->
-
       </ul>
       <form class="d-flex" role="search">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -48,7 +38,7 @@
             </a>
             <ul class="dropdown-menu">
 
-              <li><a class="dropdown-item text-uppercase" (click)="this.logout()"><i
+              <li class="cursor-pointer"><a class="dropdown-item text-uppercase" (click)="this.logout()"><i
                     class="icono-apagar bi bi-power"></i>
                   Salir del Sistema</a></li>
             </ul>
