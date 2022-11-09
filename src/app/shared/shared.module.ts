@@ -4,19 +4,23 @@ import { CommonModule } from '@angular/common';
 
 // Componentes de SHARED
 import { MenunavegacionComponent } from './menunavegacion/menunavegacion.component';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 
 
 
 @NgModule({
   declarations: [
-    MenunavegacionComponent
+    MenunavegacionComponent,
+    BreadcrumbsComponent,
+    BreadcrumbsComponent
   ],
   imports: [
     CommonModule,
     RouterModule
   ],
   exports: [
-    MenunavegacionComponent
+    MenunavegacionComponent,
+    BreadcrumbsComponent
   ]
 })
 export class SharedModule { }

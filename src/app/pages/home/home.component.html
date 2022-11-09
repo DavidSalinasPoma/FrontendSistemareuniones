@@ -1,4 +1,4 @@
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4 animated fadeIn fast">
   <div class="row">
     <div class="col-12 text-center">
       <img src="../../../assets/img/estadoPrurinacional.png" alt="Logo sistema de conflictos">
@@ -7,127 +7,110 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal_agregar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+
+<!-- Modal_registrar_reuniones -->
+<div class="modal fade animated fadeIn fast" id="myModal_agregar" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">REGISTRO DE CONFLICTOS</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <!-- Formulario reunion -->
-        <form [formGroup]="this.formulario" (ngSubmit)="submit()">
 
-          <!-- Campos nombres -->
-          <div class="form-group">
-            <p class="mb-0">Nombres</p>
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Nombres</mat-label>
-              <input type="text" matInput formControlName="nombres" autocomplete="off" spellcheck="false">
+      <!-- Formulario reunion -->
+      <form class="ps-4 pt-4 pe-4 pb-0" [formGroup]="this.formulario" (ngSubmit)="submit()">
+        <div class="modal-body">
+          <div class="row">
+            <!-- Campos motivo -->
+            <div class="col-12 col-md-6 form-group">
+              <p class="mb-0">Motivo</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Motivo</mat-label>
+                <input type="text" matInput formControlName="motivo" autocomplete="off" spellcheck="false">
 
-              <!-- Validacion -->
-              <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
-              <mat-error *ngIf="this.nombres?.invalid && (this.nombres?.dirty || this.nombres?.touched)">
-                <!-- Errores con expresiones regulares -->
-                <div *ngIf="this.nombres?.hasError('required')" class="animated fadeIn fast text-danger" id="">
-                  Este campo es requerido.
-                </div>
-              </mat-error>
-            </mat-form-field>
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.motivo?.invalid && (this.motivo?.dirty || this.motivo?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.motivo?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <!-- Campo fecha Reunión -->
+            <div class="col-12 col-md-6 form-group">
+              <!-- Fecha reunion -->
+              <p class="m-t-30 mb-0">Fecha reunión</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Fecha reunión</mat-label>
+                <input formControlName="fecha_reunion" matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint
+                  *ngIf="this.fecha_reunion?.invalid && (this.fecha_reunion?.dirty || this.fecha_reunion?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.fecha_reunion?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
           </div>
-          <!-- Campos apellidos -->
-          <div class="form-group">
-            <p class="mb-0">Apellidos</p>
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Apellidos</mat-label>
-              <input type="text" matInput formControlName="apellidos" autocomplete="off" spellcheck="false">
 
-              <!-- Validacion -->
-              <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
-              <mat-error *ngIf="this.apellidos?.invalid && (this.apellidos?.dirty || this.apellidos?.touched)">
-                <!-- Errores con expresiones regulares -->
-                <div *ngIf="this.apellidos?.hasError('required')" class="animated fadeIn fast text-danger" id="">
-                  Este campo es requerido.
-                </div>
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <!-- Campos motivo -->
-          <div class="form-group">
-            <p class="mb-0">Motivo</p>
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Motivo</mat-label>
-              <input type="text" matInput formControlName="motivo" autocomplete="off" spellcheck="false">
-
-              <!-- Validacion -->
-              <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
-              <mat-error *ngIf="this.motivo?.invalid && (this.motivo?.dirty || this.motivo?.touched)">
-                <!-- Errores con expresiones regulares -->
-                <div *ngIf="this.motivo?.hasError('required')" class="animated fadeIn fast text-danger" id="">
-                  Este campo es requerido.
-                </div>
-              </mat-error>
-            </mat-form-field>
-          </div>
 
           <!-- Campos Asunto -->
-          <div class="form-group">
-            <p class="mb-0">Asunto</p>
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Asunto</mat-label>
-              <input type="text" matInput formControlName="asunto" autocomplete="off" spellcheck="false">
+          <div class="row form-group">
 
-              <!-- Validacion -->
-              <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
-              <mat-error *ngIf="this.asunto?.invalid && (this.asunto?.dirty || this.asunto?.touched)">
-                <!-- Errores con expresiones regulares -->
-                <div *ngIf="this.asunto?.hasError('required')" class="animated fadeIn fast text-danger" id="">
-                  Este campo es requerido.
-                </div>
-              </mat-error>
-            </mat-form-field>
-          </div>
+            <p class="mb-1">Asunto</p>
+            <quill-editor class="col-12" placeholder="Describa el asunto de la reunión" formControlName="asunto"
+              [modules]="quillConfig" (onBlur)="blur()" (onSelectionChanged)="onSelectionChanged()"></quill-editor>
 
 
-          <div class="form-group">
-            <!-- Fecha reunion -->
-            <p class="m-t-30 mb-0">Fecha reunión</p>
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Fecha reunión</mat-label>
-              <input formControlName="fecha_reunion" matInput [matDatepicker]="picker">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <!-- Validacion -->
-              <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
-              <mat-hint
-                *ngIf="this.fecha_reunion?.invalid && (this.fecha_reunion?.dirty || this.fecha_reunion?.touched)">
-                <!-- Errores con expresiones regulares -->
-                <div *ngIf="this.fecha_reunion?.hasError('required')" class="animated fadeIn fast text-danger" id="">
-                  Este campo es requerido.
-                </div>
-              </mat-hint>
-            </mat-form-field>
+            <div *ngIf="this.asunto?.invalid && (this.asunto?.dirty || this.asunto?.touched)" class="div-asunto">
+              <!-- Errores con expresiones regulares -->
+              <div *ngIf="this.asunto?.hasError('required')" class="animated fadeIn fast text-danger texto-asunto"
+                id="">
+                Este campo es requerido.
+              </div>
+            </div>
+
           </div>
 
           <!-- Form directivos -->
-          <div class="form-group">
+          <div class="row form-group div-prioridad">
             <section class="example-section">
-              <p class="m-t-30">Prioridad</p>
-              <mat-checkbox formControlName="directivo" class="example-margin">Marque aqui si pertenece al
-                directorio!</mat-checkbox>
-              <!-- <mat-checkbox class="example-margin" [disabled]="true">Disabled</mat-checkbox> -->
+              <p class="example-margin">Prioridad:</p>
+              <mat-radio-group formControlName="prioridad">
+                <mat-radio-button class="example-margin ms-4" value="alta">Alta</mat-radio-button>
+                <mat-radio-button class="example-margin ms-4" value="media">Media</mat-radio-button>
+                <mat-radio-button class="example-margin ms-4" value="baja">Baja</mat-radio-button>
+
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.prioridad?.invalid && (this.prioridad?.dirty || this.prioridad?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.prioridad?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-radio-group>
             </section>
           </div>
 
 
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Guardar Registro</button>
-      </div>
+        </div>
+        <div class="modal-footer p-4 mt-5">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="this.formulario.invalid">Guardar Registro</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

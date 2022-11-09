@@ -8,16 +8,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Componentes de PAGES
 import { PagesComponent } from './pages.component';
 import { HomeComponent } from './home/home.component';
+import { ReunionesComponent } from './reuniones/reuniones.component';
 
 // Modulo personalizado SHARED
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
 
+// Editor de texto de angular
+import { QuillModule } from 'ngx-quill';
+
 
 @NgModule({
   declarations: [
     PagesComponent,
-    HomeComponent
+    HomeComponent,
+    ReunionesComponent
   ],
   imports: [
     CommonModule,
@@ -25,11 +30,13 @@ import { MaterialModule } from '../material/material.module';
     RouterModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QuillModule.forRoot()
   ],
   exports: [
     PagesComponent,
-    HomeComponent
+    HomeComponent,
+    ReunionesComponent
   ]
 })
 export class PagesModule { }

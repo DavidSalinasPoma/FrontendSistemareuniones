@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,6 +14,22 @@ export class HomeComponent implements OnInit {
 
   // Formularios reactivos
   public formulario!: FormGroup;
+
+  // Propiedades para editor de texto
+  quillConfig = {
+    toolbar: {
+      container: [
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'indent': '-1' }, { 'indent': '+1' }],
+        [{ 'header': [2, 3, false] }],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
+        [{ 'align': [] }],
+        ['clean'],
+        ['link']
+      ]
+    }
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -27,8 +45,8 @@ export class HomeComponent implements OnInit {
   */
   public crearFormulario() {
     this.formulario = this.fb.group({
-      nombres: ['', [Validators.required]],
-      apellidos: ['', [Validators.required]],
+      // nombres: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)])],
+      // apellidos: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)])],
       motivo: ['', [Validators.required]],
       asunto: ['', [Validators.required]],
       prioridad: ['', [Validators.required]],
@@ -37,12 +55,6 @@ export class HomeComponent implements OnInit {
   }
 
   // Validaciones para formulario
-  get nombres() {
-    return this.formulario.get('nombres');
-  }
-  get apellidos() {
-    return this.formulario.get('apellidos');
-  }
   get motivo() {
     return this.formulario.get('motivo');
   }
@@ -60,8 +72,23 @@ export class HomeComponent implements OnInit {
    * submit
    */
   public submit() {
-    console.log('Hola Mundo');
+    console.log(this.formulario.value);
+  }
 
+  // Editor de texto
+
+  /**
+   * blur
+   */
+  public blur() {
+    console.log('blur');
+  }
+
+  /**
+   * onSelectionChanged
+   */
+  public onSelectionChanged() {
+    console.log('onSelectionChanged');
   }
 
 }
