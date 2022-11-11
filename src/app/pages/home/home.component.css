@@ -1,15 +1,1 @@
-::ng-deep .cdk-overlay-container {
-  z-index: 9999 !important;
-}
 
-.div-prioridad {
-  margin-top: 3.8rem;
-}
-
-.div-asunto {
-  margin-top: 3rem;
-}
-
-.texto-asunto {
-  font-size: small;
-}

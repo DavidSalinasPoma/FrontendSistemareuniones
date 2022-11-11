@@ -15,7 +15,7 @@
           "options": {
             "allowedCommonJsDependencies": [
               "sweetalert2",
-              "ngx-quill"
+              "quill"
             ],
             "outputPath": "dist/sisreuniones",
             "index": "src/index.html",

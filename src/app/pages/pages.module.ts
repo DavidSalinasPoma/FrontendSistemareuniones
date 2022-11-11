@@ -17,6 +17,9 @@ import { MaterialModule } from '../material/material.module';
 // Editor de texto de angular
 import { QuillModule } from 'ngx-quill';
 
+// Notificaciones Toastr
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { QuillModule } from 'ngx-quill';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   exports: [
     PagesComponent,

@@ -1,0 +1,37 @@
+.texto-tabla {
+  color: #ffffffd7;
+}
+
+.text th {
+  font-weight: 500;
+  padding: 1rem;
+}
+
+.datos td {
+  padding: 0.8rem;
+  color: #666666;
+}
+
+.icon-font {
+  font-size: 1.1rem;
+}
+
+::ng-deep .cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+.div-prioridad {
+  margin-top: 3.8rem;
+}
+
+.div-asunto {
+  margin-top: 3rem;
+}
+
+.texto-asunto {
+  font-size: small;
+}
+
+.tabla-datos {
+  box-shadow: 2px 4px 10px -6px rgba(0, 0, 0, .75);
+}

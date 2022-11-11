@@ -26,6 +26,17 @@ export class UsuariosService {
     private router: Router,
   ) { }
 
+  // Token de usuario
+  get token() {
+    let tokenActual: any;
+    const infoToken = localStorage.getItem('token');
+    if (infoToken) {
+      const { token } = JSON.parse(infoToken);
+      tokenActual = token;
+    }
+    return tokenActual;
+  }
+
   // Servicio para el login
   /**
    * login
@@ -63,5 +74,37 @@ export class UsuariosService {
 
   }
 
+  /**
+   * indexUsuarios
+   */
+  public indexUsuarios() {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token!);
+    return this.http.get<any>(base_url + '/api/reuniones', { headers: parameters });
+  }
+
+  /**
+   * storeUsuario
+   */
+  public storeUsuario(reuniones: any) {
+
+    console.log(reuniones);
+
+
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token);
+    return this.http.post<any>(base_url + '/api/reuniones', reuniones, { headers: parameters });
+  }
+
+
+
+  /**
+   * eliminar Evento
+   */
+  public destroyPersona(id: number) {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token);
+    return this.http.delete<any>(base_url + '/api/reuniones/' + id, { headers: parameters });
+  }
 
 }

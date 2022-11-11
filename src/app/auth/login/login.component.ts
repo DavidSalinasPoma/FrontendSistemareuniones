@@ -93,8 +93,7 @@ export class LoginComponent implements OnInit {
       }, (err) => {
         Swal.fire('Error', err.error.message, 'error')
         this.cargando = false;
-      }
-      )
+      });
   }
 
   // Validaciones para formulario
