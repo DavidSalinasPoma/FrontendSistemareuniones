@@ -73,15 +73,14 @@
                 <div class="d-flex">
                   <a class="text-secondary cursor-pointer" title="Ver Reunión"><i class="icon-font fa fa-eye"></i></a>
 
-                  <a class="ms-3 text-warning cursor-pointer" title="Editar Reunión"><i
-                      class="icon-font fa fa-pencil"></i></a>
+                  <a (click)="this.modificarReunion(item.id)" class="ms-3 text-warning cursor-pointer"
+                    title="Editar Reunión"><i class="icon-font fa fa-pencil"></i></a>
 
                   <a (click)="this.destroyReunion(item.id, item.motivo)" class="ms-3 text-danger cursor-pointer"
                     title="Dar de baja reunión"><i class="icon-font fa fa-trash"></i></a>
                 </div>
               </td>
             </tr>
-
           </tbody>
         </table>
       </div>
@@ -106,7 +105,7 @@
           <div class="row">
             <!-- Campos motivo -->
             <div class="col-12 col-md-6 form-group">
-              <p class="mb-0">Motivo</p>
+              <p class="mb-0">Motivo:</p>
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Motivo</mat-label>
                 <input type="text" matInput formControlName="motivo" autocomplete="off" spellcheck="false">
@@ -125,7 +124,7 @@
             <!-- Campo fecha Reunión -->
             <div class="col-12 col-md-6 form-group">
               <!-- Fecha reunion -->
-              <p class="m-t-30 mb-0">Fecha reunión</p>
+              <p class="m-t-30 mb-0">Fecha reunión:</p>
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Fecha reunión</mat-label>
                 <input formControlName="fecha_reunion" matInput [matDatepicker]="picker">
@@ -148,7 +147,7 @@
           <!-- Campos Asunto -->
           <div class="row form-group">
 
-            <p class="mb-1">Asunto</p>
+            <p class="mb-1">Asunto:</p>
             <quill-editor class="col-12" placeholder="Describa el asunto de la reunión" formControlName="asunto"
               [modules]="quillConfig" (onBlur)="blur()" (onSelectionChanged)="onSelectionChanged()"></quill-editor>
 
@@ -194,3 +193,164 @@
     </div>
   </div>
 </div>
+<!-- FIN Modal_registrar_reuniones -->
+
+
+<!-- Modal_modificar_reuniones -->
+<div class="modal fade animated fadeIn fast" id="myModal_modificar" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">MODIFICAR REGISTRO DE CONFLICTOS</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Formulario reunion -->
+      <form class="ps-4 pt-4 pe-4 pb-0" [formGroup]="this.formularioModificar" (ngSubmit)="submitModificar()">
+        <div class="modal-body">
+          <div class="row">
+            <!-- Campos motivo -->
+            <div class="col-12 col-md-6 form-group">
+              <p class="mb-0">Motivo:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Motivo</mat-label>
+                <input type="text" matInput formControlName="motivoModificar" autocomplete="off" spellcheck="false">
+
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint
+                  *ngIf="this.motivoModificar?.invalid && (this.motivoModificar?.dirty || this.motivoModificar?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.motivoModificar?.hasError('required')" class="animated fadeIn fast text-danger"
+                    id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <!-- Campo fecha Reunión -->
+            <div class="col-12 col-md-6 form-group">
+              <!-- Fecha reunion -->
+              <p class="m-t-30 mb-0">Fecha reunión:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Fecha reunión</mat-label>
+                <input formControlName="fecha_reunionModificar" matInput [matDatepicker]="pickerDos">
+                <mat-datepicker-toggle matSuffix [for]="pickerDos"></mat-datepicker-toggle>
+                <mat-datepicker #pickerDos></mat-datepicker>
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint
+                  *ngIf="this.fecha_reunionModificar?.invalid && (this.fecha_reunionModificar?.dirty || this.fecha_reunionModificar?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.fecha_reunionModificar?.hasError('required')"
+                    class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <!-- Campos Asunto -->
+          <div class="row form-group">
+
+            <p class="mb-1">Asunto:</p>
+            <quill-editor class="col-12" placeholder="Describa el asunto de la reunión"
+              formControlName="asuntoModificar" [modules]="quillConfig" (onBlur)="blur()"
+              (onSelectionChanged)="onSelectionChanged()"></quill-editor>
+
+
+            <div *ngIf="this.asuntoModificar?.invalid && (this.asuntoModificar?.dirty || this.asuntoModificar?.touched)"
+              class="div-asunto">
+              <!-- Errores con expresiones regulares -->
+              <div *ngIf="this.asuntoModificar?.hasError('required')"
+                class="animated fadeIn fast text-danger texto-asunto" id="">
+                Este campo es requerido.
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Form Prioridad -->
+          <div class="row form-group div-prioridad">
+
+            <section class="col-12 col-lg-4 example-section">
+              <p class="example-margin">Prioridad:</p>
+              <mat-radio-group formControlName="prioridadModificar">
+                <mat-radio-button class="example-margin ms-4" value="alta">Alta</mat-radio-button>
+                <mat-radio-button class="example-margin ms-4" value="media">Media</mat-radio-button>
+                <mat-radio-button class="example-margin ms-4" value="baja">Baja</mat-radio-button>
+
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint
+                  *ngIf="this.prioridadModificar?.invalid && (this.prioridadModificar?.dirty || this.prioridadModificar?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.prioridadModificar?.hasError('required')" class="animated fadeIn fast text-danger"
+                    id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-radio-group>
+            </section>
+
+            <!-- Campo estado -->
+            <section class="col-12 col-lg-4 mt-4 mt-lg-0 example-section">
+              <p class="example-margin mb-0">Estado:</p>
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Estado</mat-label>
+                <mat-select formControlName="estado">
+                  <mat-option *ngFor="let estado of estados" [value]="estado.value">
+                    {{estado.estado}}
+                  </mat-option>
+                </mat-select>
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.estado?.invalid && (this.estado?.dirty || this.estado?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.estado?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </section>
+
+
+            <!-- Campo estado_reunion -->
+            <section class="col-12 col-lg-4 example-section">
+              <p class="example-margin mb-0">Estado reunión:</p>
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Estado reunión</mat-label>
+                <mat-select formControlName="estado_reunion">
+                  <mat-option *ngFor="let item of estadoReunion" [value]="item.value">
+                    {{item.estado}}
+                  </mat-option>
+                </mat-select>
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint
+                  *ngIf="this.estado_reunion?.invalid && (this.estado_reunion?.dirty || this.estado_reunion?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.estado_reunion?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </section>
+
+          </div>
+
+        </div>
+        <div class="modal-footer p-4 mt-5">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="this.formularioModificar.invalid">Guardar
+            Registro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- FIN Modal_modificar_reuniones -->

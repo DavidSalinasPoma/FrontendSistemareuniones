@@ -11,7 +11,19 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import Swal from 'sweetalert2';
 
 import { ToastrService } from 'ngx-toastr';
+import { ReunionesService } from 'src/app/services/reuniones.service';
 
+// Utilizando jquery
+declare var JQuery: any;
+declare var $: any;
+
+// Manejo de fechas
+import * as moment from 'moment';
+
+interface Estado {
+  value: number;
+  estado: string;
+}
 
 @Component({
   selector: 'app-reuniones',
@@ -22,12 +34,25 @@ export class ReunionesComponent implements OnInit {
 
   // Formularios reactivos
   public formulario!: FormGroup;
+  public formularioModificar!: FormGroup;
+
+  estados: Estado[] = [
+    { value: 0, estado: 'Inhabilitado' },
+    { value: 1, estado: 'Habilitado' }
+  ];
+
+  estadoReunion: Estado[] = [
+    { value: 0, estado: 'Pendiente' },
+    { value: 1, estado: 'Concluido' }
+  ];
 
   // Lista de todas reuniones
   public reuniones: any[] = [];
 
   // loading
   public cargando: boolean = true;
+
+  public idReunion: number = 0;
 
   // Propiedades para editor de texto
   quillConfig = {
@@ -50,13 +75,17 @@ export class ReunionesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private usuarioServices: UsuariosService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private reunionesServices: ReunionesService
   ) {
     this.crearFormulario();
+    this.crearFormularioModificar();
+    moment.locale('es');
   }
 
   ngOnInit(): void {
     this.indexReuniones();
+
   }
 
   /**
@@ -70,7 +99,21 @@ export class ReunionesComponent implements OnInit {
       asunto: ['', [Validators.required]],
       prioridad: ['', [Validators.required]],
       fecha_reunion: ['', [Validators.required]],
-    })
+    });
+  }
+
+  /**
+   * crearFormularioModificar
+   */
+  public crearFormularioModificar() {
+    this.formularioModificar = this.fb.group({
+      motivoModificar: ['', [Validators.required]],
+      asuntoModificar: ['', [Validators.required]],
+      prioridadModificar: ['', [Validators.required]],
+      fecha_reunionModificar: ['', [Validators.required]],
+      estado: ['', [Validators.required]],
+      estado_reunion: ['', [Validators.required]],
+    });
   }
 
   // Validaciones para formulario
@@ -111,6 +154,7 @@ export class ReunionesComponent implements OnInit {
       .subscribe(({ status, message }) => {
 
         if (status === 'success') {
+          $('#myModal_agregar').modal('hide');
           this.indexReuniones();
           this.toastr.success(message, 'Sistema de Conflictos');
         } else {
@@ -183,6 +227,66 @@ export class ReunionesComponent implements OnInit {
       }
     })
 
+  }
+
+  /**
+   * submitModificar
+   */
+  public submitModificar() {
+    const formData = {
+      motivo: this.formularioModificar.value.motivoModificar,
+      asunto: this.formularioModificar.value.asuntoModificar,
+      prioridad: this.formularioModificar.value.prioridadModificar,
+      fecha_reunion: new Date(this.formularioModificar.value.fecha_reunionModificar).toLocaleDateString(),
+      estado: this.formularioModificar.value.estado,
+      estado_reunion: this.formularioModificar.value.estado_reunion,
+    }
+
+  }
+
+  /**
+   * modificarReunion
+   */
+  public modificarReunion(id: number) {
+    this.idReunion = id;
+    this.reunionesServices.showReuniones(id)
+      .subscribe(({ reunion }) => {
+        console.log(reunion);
+        this.formularioModificar.setValue({
+          motivoModificar: reunion.motivo,
+          asuntoModificar: reunion.asunto,
+          prioridadModificar: reunion.prioridad,
+          fecha_reunionModificar: new Date(moment(reunion.fecha_reunion).format('YYYY/MM/DD')).toISOString(),
+          estado: reunion.estado,
+          estado_reunion: reunion.estado_reunion
+        });
+
+      }, (err) => {
+        Swal.fire('Error', err.error.message, 'error')
+      });
+
+    $('#myModal_modificar').modal('show');
+  }
+
+
+  // Validaciones para formulario
+  get motivoModificar() {
+    return this.formularioModificar.get('motivoModificar');
+  }
+  get asuntoModificar() {
+    return this.formularioModificar.get('asuntoModificar');
+  }
+  get prioridadModificar() {
+    return this.formularioModificar.get('prioridadModificar');
+  }
+  get fecha_reunionModificar() {
+    return this.formularioModificar.get('fecha_reunionModificar');
+  }
+  get estado() {
+    return this.formularioModificar.get('estado');
+  }
+  get estado_reunion() {
+    return this.formularioModificar.get('estado_reunion');
   }
 
 }

@@ -10,16 +10,15 @@ import { Observable, of, Subject } from 'rxjs';
 // Variables globales
 import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
-import { Usuario } from '../models/usuario.model';
+
 
 // Variables globales
 const base_url = environment.base_url;
 
-
 @Injectable({
   providedIn: 'root'
 })
-export class UsuariosService {
+export class ReunionesService {
 
   constructor(
     private http: HttpClient,
@@ -37,57 +36,28 @@ export class UsuariosService {
     return tokenActual;
   }
 
-  // Servicio para el login
   /**
-   * login
-   */
-  public login(formData: Usuario) {
-    // console.log(formData);
-    return this.http.post(`${base_url}/api/login`, formData)
-      .pipe(
-        tap((resp: any) => {
-          localStorage.setItem('token', JSON.stringify(resp))
-        })
-      )
-  }
-
-  /**
-   * ValidarToken
-   */
-  public validarToken(): Observable<boolean> {
-
-    const token = localStorage.getItem('token') || '';
-
-    // Implementando rxjs
-    let tokenInfo$: Observable<string>;
-    tokenInfo$ = of(token);
-    return tokenInfo$.pipe(
-      tap((resp: any) => {
-        // console.log(resp);
-        if (resp != '') {
-          localStorage.setItem('token', resp);
-        }
-      }),
-      map(resp => (resp === '') ? false : true)
-    );
-
-  }
-
-  /**
-   * indexUsuarios
-   */
-  public indexUsuarios() {
+  * indexReuniones
+  */
+  public indexReuniones() {
     let parameters = new HttpHeaders();
     parameters = parameters.set('token-usuario', this.token!);
     return this.http.get<any>(base_url + '/api/reuniones', { headers: parameters });
   }
 
-
+  /**
+  * ShowReuniones
+  */
+  public showReuniones(id: number) {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token);
+    return this.http.get<any>(base_url + `/api/reuniones/${id}`, { headers: parameters });
+  }
 
   /**
-   * storeUsuario
-   */
-  public storeUsuario(reuniones: any) {
+ * storeUsuario
+ */
+  public storeReuniones(reuniones: any) {
 
     console.log(reuniones);
 
@@ -96,15 +66,24 @@ export class UsuariosService {
     return this.http.post<any>(base_url + '/api/reuniones', reuniones, { headers: parameters });
   }
 
+  /**
+   * updateReuniones
+   */
+  public updateReuniones(formData: any, id: number) {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token);
+    return this.http.put<any>(base_url + `/api/reuniones/${id}`, formData, { headers: parameters });
+  }
 
 
   /**
-   * eliminar Evento
-   */
-  public destroyPersona(id: number) {
+ * eliminar Evento
+ */
+  public destroyReuniones(id: number) {
     let parameters = new HttpHeaders();
     parameters = parameters.set('token-usuario', this.token);
     return this.http.delete<any>(base_url + '/api/reuniones/' + id, { headers: parameters });
   }
+
 
 }

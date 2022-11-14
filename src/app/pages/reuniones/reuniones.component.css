@@ -21,7 +21,13 @@
 }
 
 .div-prioridad {
-  margin-top: 3.8rem;
+  margin-top: 6rem;
+}
+
+@media (min-width: 992px) {
+  .div-prioridad {
+    margin-top: 4rem;
+  }
 }
 
 .div-asunto {
