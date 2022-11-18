@@ -10,6 +10,7 @@ import { Observable, of, Subject } from 'rxjs';
 // Variables globales
 import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
+import { Reunion } from '../models/reunion.model';
 
 
 // Variables globales
@@ -64,6 +65,15 @@ export class ReunionesService {
     let parameters = new HttpHeaders();
     parameters = parameters.set('token-usuario', this.token);
     return this.http.post<any>(base_url + '/api/reuniones', reuniones, { headers: parameters });
+  }
+
+  /**
+* storeUsuario
+*/
+  public buscarReuniones(reuniones: any) {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token);
+    return this.http.post<any>(base_url + '/api/reuniones/buscarReuniones', reuniones, { headers: parameters });
   }
 
   /**

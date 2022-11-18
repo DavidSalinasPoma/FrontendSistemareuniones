@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark animated fadeIn fast">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark animated fadeIn fast navegacion-principal">
   <div class="container">
     <a class="navbar-brand">
       <img src="../../../assets/img/logo-gobernacion.png" alt="Logo" width="300" class="d-inline-block align-text-top">
@@ -21,6 +21,30 @@
         <li class="nav-item">
           <a class="nav-link text-uppercase" [routerLink]="[ '/home/reuniones' ]"
             routerLinkActive="active">Reuniones</a>
+        </li>
+
+        <li class="nav-item dropdown ">
+          <a class="nav-link dropdown-toggle text-uppercase" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">Reportes</a>
+          <ul class="dropdown-menu">
+
+            <!-- <li class="cursor-pointer">
+              <a class="dropdown-item " [routerLink]="[ '/home/porfecha']"><i class="bi bi-calendar-week"></i> Por
+                fecha</a>
+            </li> -->
+            <li class="cursor-pointer"><a class="dropdown-item" [routerLink]="[ '/home/pormotivo']"><i
+                  class="bi bi-card-checklist"></i>
+                Por motivo</a>
+            </li>
+            <li class="cursor-pointer"><a class="dropdown-item " [routerLink]="[ '/home/rangofechas']"><i
+                  class="bi bi-calendar3"></i>
+                Por rango de fechas</a>
+            </li>
+            <!-- <li class="cursor-pointer"><a class="dropdown-item" [routerLink]="[ '/home/estadoreunion']"><i
+                  class="bi bi-person-video2"></i>
+                Por estado reunión</a>
+            </li> -->
+          </ul>
         </li>
 
       </ul>

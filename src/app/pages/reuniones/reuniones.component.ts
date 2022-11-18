@@ -5,13 +5,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // Servicios de usuario
 import { UsuariosService } from 'src/app/services/usuarios.service';
+import { ReunionesService } from 'src/app/services/reuniones.service';
 
+// Modelo
+import { Reunion } from './../../models/reunion.model';
 
 // Motras ntificaciones en tarjetas
 import Swal from 'sweetalert2';
 
 import { ToastrService } from 'ngx-toastr';
-import { ReunionesService } from 'src/app/services/reuniones.service';
 
 // Utilizando jquery
 declare var JQuery: any;
@@ -19,6 +21,9 @@ declare var $: any;
 
 // Manejo de fechas
 import * as moment from 'moment';
+
+// Sanetizar HTML
+import * as sanitizeHtml from 'sanitize-html';
 
 interface Estado {
   value: number;
@@ -54,6 +59,9 @@ export class ReunionesComponent implements OnInit {
 
   public idReunion: number = 0;
 
+  public reunionMostrar?: Reunion;
+
+
   // Propiedades para editor de texto
   quillConfig = {
     toolbar: {
@@ -85,7 +93,6 @@ export class ReunionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.indexReuniones();
-
   }
 
   /**
@@ -242,6 +249,26 @@ export class ReunionesComponent implements OnInit {
       estado_reunion: this.formularioModificar.value.estado_reunion,
     }
 
+    console.log(formData);
+
+
+    this.reunionesServices.updateReuniones(formData, this.idReunion)
+      .subscribe(({ message }) => {
+        this.indexReuniones();
+        $('#myModal_modificar').modal('hide');
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '¡Modificación Correcta!',
+          text: `${message}`,
+          showConfirmButton: false,
+          timer: 3000
+        })
+      }, (err) => {
+        console.log(err);
+        Swal.fire('Error', err.error.message, 'error')
+      }
+      );
   }
 
   /**
@@ -249,9 +276,10 @@ export class ReunionesComponent implements OnInit {
    */
   public modificarReunion(id: number) {
     this.idReunion = id;
+
     this.reunionesServices.showReuniones(id)
       .subscribe(({ reunion }) => {
-        console.log(reunion);
+
         this.formularioModificar.setValue({
           motivoModificar: reunion.motivo,
           asuntoModificar: reunion.asunto,
@@ -287,6 +315,27 @@ export class ReunionesComponent implements OnInit {
   }
   get estado_reunion() {
     return this.formularioModificar.get('estado_reunion');
+  }
+
+  /**
+   * name
+   */
+  public mostrarReunion(id: number) {
+
+
+    this.reunionesServices.showReuniones(id)
+      .subscribe(({ reunion }) => {
+        console.log(reunion);
+        this.reunionMostrar = reunion;
+        $('#myModal_mostrar').modal('show');
+      });
+  }
+
+  /**
+   * imprimirPDF
+   */
+  public imprimirPDF() {
+    $('#myModal_mostrar').modal('hide');
   }
 
 }

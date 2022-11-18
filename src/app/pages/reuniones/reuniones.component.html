@@ -71,7 +71,8 @@
 
               <td>
                 <div class="d-flex">
-                  <a class="text-secondary cursor-pointer" title="Ver Reunión"><i class="icon-font fa fa-eye"></i></a>
+                  <a (click)="this.mostrarReunion(item.id)" class="text-secondary cursor-pointer" title="Ver Reunión"><i
+                      class="icon-font fa fa-eye"></i></a>
 
                   <a (click)="this.modificarReunion(item.id)" class="ms-3 text-warning cursor-pointer"
                     title="Editar Reunión"><i class="icon-font fa fa-pencil"></i></a>
@@ -151,7 +152,6 @@
             <quill-editor class="col-12" placeholder="Describa el asunto de la reunión" formControlName="asunto"
               [modules]="quillConfig" (onBlur)="blur()" (onSelectionChanged)="onSelectionChanged()"></quill-editor>
 
-
             <div *ngIf="this.asunto?.invalid && (this.asunto?.dirty || this.asunto?.touched)" class="div-asunto">
               <!-- Errores con expresiones regulares -->
               <div *ngIf="this.asunto?.hasError('required')" class="animated fadeIn fast text-danger texto-asunto"
@@ -162,7 +162,7 @@
 
           </div>
 
-          <!-- Form directivos -->
+          <!-- Form prioridad -->
           <div class="row form-group div-prioridad">
             <section class="example-section">
               <p class="example-margin">Prioridad:</p>
@@ -354,3 +354,103 @@
   </div>
 </div>
 <!-- FIN Modal_modificar_reuniones -->
+
+<!-- Modal_imprimir_reuniones -->
+<div class="modal fade animated fadeIn fast" id="myModal_mostrar" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">GOBIERNO AUTÓNOMO DEPARTAMENTAL DE
+          COCHABAMBA</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-3" id="htmlImprimir">
+
+        <!-- Imagenes -->
+        <div class="row">
+          <div class="col-12 d-flex justify-content-between">
+            <div class="">
+              <img width="140" src="../../../assets/img/escudo1.png" alt="">
+            </div>
+            <div class="">
+              <img width="70" src="../../../assets/img/esccocha.png" alt="">
+            </div>
+            <div class="">
+              <img width="140" src="../../../assets/img/escudo2.png" alt="">
+            </div>
+          </div>
+        </div>
+
+        <!-- Titulo gobernación -->
+        <div class="row">
+          <div class="col-12">
+            <div class="titulo-gobernacion">
+              GOBIERNO AUTÓNOMO DEPARTAMENTAL DE COCHABAMBA
+            </div>
+          </div>
+        </div>
+
+        <!-- Titulo principal de la reunión -->
+        <div class="row">
+          <div class="col-12">
+            <h3 class="text-uppercase text-center mt-4 fuente-mostrar motivo-principal">
+              {{ this.reunionMostrar?.motivo }}</h3>
+          </div>
+        </div>
+
+        <!-- Fecha reunión y prioridad -->
+        <div class="row">
+          <div class="col-12 estadistica">
+            <p class="text-uppercase mt-4 mb-0 fuente-mostrar parrafo-estadistica"><span
+                class="text-uppercase fuente-detalle">Prioridad:</span>
+              {{ this.reunionMostrar?.prioridad }}</p>
+
+            <p class="fuente-mostrar mb-0 parrafo-estadistica">
+              <span class="text-uppercase fuente-detalle">Fecha reunión</span>
+              {{ this.reunionMostrar?.fecha_reunion }}
+            </p>
+
+
+            <p class="fuente-mostrar parrafo-estadistica"
+              *ngIf="this.reunionMostrar?.estado_reunion;else estadoReunionMostrar"><span
+                class="text-uppercase fuente-detalle">Estado reunión: </span>
+              CONCLUIDO
+            </p>
+
+            <ng-template #estadoReunionMostrar>
+              <p class="fuente-mostrar parrafo-estadistica"><span class="text-uppercase fuente-detalle">Estado reunión:
+                </span>
+                PENDIENTE
+              </p>
+            </ng-template>
+
+          </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="row">
+          <div class="col-12" id="contenido-principal">
+            <div class="ql-container ql-snow" style="border-width: 0;">
+              <div class="ql-editor fuente-mostrar fuente-justificado" [innerHTML]="this.reunionMostrar?.asunto">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="modal-footer p-3 mt-5">
+        <button type="button" class="btn btn-secondary text-uppercase" data-bs-dismiss="modal">Cancelar</button>
+        <button (click)="this.imprimirPDF()" [useExistingCss]="true" printSectionId="htmlImprimir" ngxPrint
+          type="button" class="btn btn-primary text-uppercase" data-bs-dismiss="modal"><i class="fa fa-print"></i>
+          Imprimir</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- FIN Modal_imprimir_reuniones -->

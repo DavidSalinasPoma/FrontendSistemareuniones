@@ -9,6 +9,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesComponent } from './pages.component';
 import { HomeComponent } from './home/home.component';
 import { ReunionesComponent } from './reuniones/reuniones.component';
+import { PorfechaComponent } from './reportes/porfecha/porfecha.component';
+import { PormotivoComponent } from './reportes/pormotivo/pormotivo.component';
+import { RangofechaComponent } from './reportes/rangofecha/rangofecha.component';
+import { EstadoreunionComponent } from './reportes/estadoreunion/estadoreunion.component';
 
 // Modulo personalizado SHARED
 import { SharedModule } from '../shared/shared.module';
@@ -20,12 +24,20 @@ import { QuillModule } from 'ngx-quill';
 // Notificaciones Toastr
 import { ToastrModule } from 'ngx-toastr';
 
+// Para imrpimir en PDF
+import { NgxPrintModule } from 'ngx-print';
+
+
 
 @NgModule({
   declarations: [
     PagesComponent,
     HomeComponent,
-    ReunionesComponent
+    ReunionesComponent,
+    PorfechaComponent,
+    PormotivoComponent,
+    RangofechaComponent,
+    EstadoreunionComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +45,7 @@ import { ToastrModule } from 'ngx-toastr';
     RouterModule,
     MaterialModule,
     FormsModule,
+    NgxPrintModule,
     ReactiveFormsModule,
     QuillModule.forRoot(),
     ToastrModule.forRoot(), // ToastrModule added
