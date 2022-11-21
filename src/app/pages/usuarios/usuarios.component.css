@@ -1,11 +1,3 @@
-.tabla-datos {
-  box-shadow: 2px 4px 10px -6px rgba(0, 0, 0, .75);
-}
-
-.boton-reunion {
-  align-self: center;
-}
-
 .texto-tabla {
   color: #ffffffd7;
 }
@@ -82,8 +74,4 @@
 
 .parrafo-estadistica {
   font-size: 15px !important;
-}
-
-.mostrarReunionModal {
-  z-index: 1000;
 }

@@ -1,3 +1,4 @@
+import { UsuariosComponent } from './usuarios/usuarios.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'pormotivo', component: PormotivoComponent, data: { titulo: 'Reporte por Motivo' } }, // Path inicial
     { path: 'rangofechas', component: RangofechaComponent, data: { titulo: 'Reporte por rango de fechas' } }, // Path inicial
     { path: 'estadoreunion', component: EstadoreunionComponent, data: { titulo: 'Reporte por estado reunión' } }, // Path inicial
+    { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Registro de usuarios' } }, // Path inicial
     // { path: 'correspondencia', component: CorrespondenciaComponent, data: { titulo: 'Correspondencia' } }, // Path inicial
 ];
 

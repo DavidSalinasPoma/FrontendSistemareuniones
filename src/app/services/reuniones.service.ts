@@ -68,13 +68,24 @@ export class ReunionesService {
   }
 
   /**
-* storeUsuario
+* Buscar re9uniones
 */
   public buscarReuniones(reuniones: any) {
     let parameters = new HttpHeaders();
     parameters = parameters.set('token-usuario', this.token);
     return this.http.post<any>(base_url + '/api/reuniones/buscarReuniones', reuniones, { headers: parameters });
   }
+
+  /**
+   * Buscar re9uniones por fechas
+   */
+  public buscarReunionesFechas(rangoFechas: any) {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token);
+    return this.http.post<any>(base_url + '/api/reuniones/buscarReunionesFechas', rangoFechas, { headers: parameters });
+  }
+
+
 
   /**
    * updateReuniones

@@ -1,0 +1,494 @@
+<!-- Migajas de Pan -->
+<div class="container fade animated fadeIn fast">
+  <app-breadcrumbs></app-breadcrumbs>
+</div>
+
+
+<!-- Boton de crear nueva reunión -->
+<div class="container fade animated fadeIn fast">
+  <div class="row">
+    <div class="col-12">
+      <div class="crear-reunion d-flex justify-content-end">
+        <button class="btn btn-primary text-uppercase" data-bs-toggle="modal" data-bs-target="#myModal_agregar"><i
+            class="bi bi-card-heading"></i> Crear
+          Usuario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Tabla reuniones -->
+<div class="container mt-4 fade animated fadeIn fast">
+
+  <!-- Loading -->
+
+  <div *ngIf="this.cargando" class="row animated fadeIn fast">
+    <div class="col-12">
+      <div class="alert alert-primary text-center">
+        <h4 class="alert-heading">Cargando</h4>
+        <i class="fa fa-spin fa-refresh fa-2x"></i>
+        <p class="mb-0">Por favor espere</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!this.cargando" class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table tabla-datos">
+          <thead class="table bg-primary texto-tabla">
+            <tr class="text">
+              <th style="width: 5%;">Codigo</th>
+              <th style="width: 20%;">Nombres</th>
+              <th>Apellidos</th>
+              <th style="width: 12%;">Email</th>
+              <th>Estado</th>
+              <th>Descripción</th>
+              <th>Rol</th>
+              <!-- <th>Acciones</th> -->
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            <tr class="datos" *ngFor="let item of this.usuarios">
+              <td>{{ item.id }}</td>
+              <td>{{ item.nombres }}</td>
+              <td>{{ item.apellidos }}</td>
+              <td>{{ item.email }}</td>
+              <td *ngIf="item.estado;else estados"><span class="text-success">Habilitado</span></td>
+              <ng-template #estados>
+                <td><span class="text-danger">Deshabilitado</span></td>
+              </ng-template>
+
+              <td>{{ item.descripcion }}</td>
+
+              <td *ngIf="item.rol;else roles"><span>Administrador</span></td>
+              <ng-template #roles>
+                <td><span>Secretaria</span></td>
+              </ng-template>
+
+              <!-- <td>
+                <div class="d-flex">
+                  <a (click)="this.modificarReunion(item.id)" class="ms-3 text-warning cursor-pointer"
+                    title="Editar Reunión"><i class="icon-font fa fa-pencil"></i></a>
+
+                  <a (click)="this.destroyReunion(item.id, item.motivo)" class="ms-3 text-danger cursor-pointer"
+                    title="Dar de baja reunión"><i class="icon-font fa fa-trash"></i></a>
+                </div>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal_registrar_usuarios -->
+<div class="modal fade animated fadeIn fast" id="myModal_agregar" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">REGISTRO DE USUARIOS</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Formulario reunion -->
+      <form class="ps-4 pt-4 pe-4 pb-0" [formGroup]="this.formulario" (ngSubmit)="submit()">
+        <div class="modal-body">
+          <div class="row">
+            <!-- Campos nombres -->
+            <div class="col-12 col-md-6 form-group">
+              <p class="mb-0">Nombres:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Nombres</mat-label>
+                <input type="text" matInput formControlName="nombres" autocomplete="off" spellcheck="false">
+
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.nombres?.invalid && (this.nombres?.dirty || this.nombres?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.nombres?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <!-- Campos apellidos -->
+            <div class="col-12 col-md-6 form-group">
+              <p class="mb-0">Apellidos:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Apellidos</mat-label>
+                <input type="text" matInput formControlName="apellidos" autocomplete="off" spellcheck="false">
+
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.apellidos?.invalid && (this.apellidos?.dirty || this.apellidos?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.apellidos?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <!-- Campos Email -->
+            <div class="col-12 col-md-6 form-group">
+              <p class="mb-0">Email:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input type="text" matInput formControlName="email" autocomplete="off" spellcheck="false">
+
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.email?.invalid && (this.email?.dirty || this.email?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.email?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+
+            <!-- Campos password -->
+            <div class="col-12 col-md-6 form-group">
+              <p class="mb-0">Password:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Password</mat-label>
+                <input type="text" matInput formControlName="password" autocomplete="off" spellcheck="false">
+
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.password?.invalid && (this.password?.dirty || this.password?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.password?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <!-- Campos Descripción -->
+          <div class="row form-group">
+            <div class="col-12 col-lg-8">
+              <p class="mb-0">Descripción:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Descripción</mat-label>
+                <input type="text" matInput formControlName="descripcion" autocomplete="off" spellcheck="false">
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.descripcion?.invalid && (this.descripcion?.dirty || this.descripcion?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.descripcion?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <!-- Select -->
+            <div class="col-12 col-lg-4">
+              <p class="mb-0">Rol:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Rol de usuario</mat-label>
+                <mat-select formControlName="rol">
+                  <mat-option *ngFor="let item of roles" [value]="item.value">
+                    {{item.estado}}
+                  </mat-option>
+                </mat-select>
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.rol?.invalid && (this.rol?.dirty || this.rol?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.rol?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+
+
+        </div>
+        <div class="modal-footer p-4 mt-5">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="this.formulario.invalid">Guardar Registro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- FIN Modal_registrar_reuniones -->
+
+
+<!-- Modal_modificar_reuniones -->
+<div class="modal fade animated fadeIn fast" id="myModal_modificar" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">MODIFICAR REGISTRO DE CONFLICTOS</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Formulario reunion -->
+      <form class="ps-4 pt-4 pe-4 pb-0" [formGroup]="this.formularioModificar" (ngSubmit)="submitModificar()">
+        <div class="modal-body">
+          <div class="row">
+            <!-- Campos motivo -->
+            <div class="col-12 col-md-6 form-group">
+              <p class="mb-0">Motivo:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Motivo</mat-label>
+                <input type="text" matInput formControlName="motivoModificar" autocomplete="off" spellcheck="false">
+
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint
+                  *ngIf="this.motivoModificar?.invalid && (this.motivoModificar?.dirty || this.motivoModificar?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.motivoModificar?.hasError('required')" class="animated fadeIn fast text-danger"
+                    id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <!-- Campo fecha Reunión -->
+            <div class="col-12 col-md-6 form-group">
+              <!-- Fecha reunion -->
+              <p class="m-t-30 mb-0">Fecha reunión:</p>
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Fecha reunión</mat-label>
+                <input formControlName="fecha_reunionModificar" matInput [matDatepicker]="pickerDos">
+                <mat-datepicker-toggle matSuffix [for]="pickerDos"></mat-datepicker-toggle>
+                <mat-datepicker #pickerDos></mat-datepicker>
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint
+                  *ngIf="this.fecha_reunionModificar?.invalid && (this.fecha_reunionModificar?.dirty || this.fecha_reunionModificar?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.fecha_reunionModificar?.hasError('required')"
+                    class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <!-- Campos Asunto -->
+          <div class="row form-group">
+
+            <p class="mb-1">Asunto:</p>
+            <quill-editor class="col-12" placeholder="Describa el asunto de la reunión"
+              formControlName="asuntoModificar" [modules]="quillConfig" (onBlur)="blur()"
+              (onSelectionChanged)="onSelectionChanged()"></quill-editor>
+
+
+            <div *ngIf="this.asuntoModificar?.invalid && (this.asuntoModificar?.dirty || this.asuntoModificar?.touched)"
+              class="div-asunto">
+              <!-- Errores con expresiones regulares -->
+              <div *ngIf="this.asuntoModificar?.hasError('required')"
+                class="animated fadeIn fast text-danger texto-asunto" id="">
+                Este campo es requerido.
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Form Prioridad -->
+          <div class="row form-group div-prioridad">
+
+            <section class="col-12 col-lg-4 example-section">
+              <p class="example-margin">Prioridad:</p>
+              <mat-radio-group formControlName="prioridadModificar">
+                <mat-radio-button class="example-margin ms-4" value="alta">Alta</mat-radio-button>
+                <mat-radio-button class="example-margin ms-4" value="media">Media</mat-radio-button>
+                <mat-radio-button class="example-margin ms-4" value="baja">Baja</mat-radio-button>
+
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint
+                  *ngIf="this.prioridadModificar?.invalid && (this.prioridadModificar?.dirty || this.prioridadModificar?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.prioridadModificar?.hasError('required')" class="animated fadeIn fast text-danger"
+                    id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-radio-group>
+            </section>
+
+            <!-- Campo estado -->
+            <section class="col-12 col-lg-4 mt-4 mt-lg-0 example-section">
+              <p class="example-margin mb-0">Estado:</p>
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Estado</mat-label>
+                <mat-select formControlName="estado">
+                  <mat-option *ngFor="let estado of estados" [value]="estado.value">
+                    {{estado.estado}}
+                  </mat-option>
+                </mat-select>
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint *ngIf="this.estado?.invalid && (this.estado?.dirty || this.estado?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.estado?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </section>
+
+
+            <!-- Campo estado_reunion -->
+            <section class="col-12 col-lg-4 example-section">
+              <p class="example-margin mb-0">Estado reunión:</p>
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Estado reunión</mat-label>
+                <mat-select formControlName="estado_reunion">
+                  <mat-option *ngFor="let item of estadoReunion" [value]="item.value">
+                    {{item.estado}}
+                  </mat-option>
+                </mat-select>
+                <!-- Validacion -->
+                <!-- Preguntamos si es invalido y si esta sucio o a sido tocado -->
+                <mat-hint
+                  *ngIf="this.estado_reunion?.invalid && (this.estado_reunion?.dirty || this.estado_reunion?.touched)">
+                  <!-- Errores con expresiones regulares -->
+                  <div *ngIf="this.estado_reunion?.hasError('required')" class="animated fadeIn fast text-danger" id="">
+                    Este campo es requerido.
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </section>
+
+          </div>
+
+        </div>
+        <div class="modal-footer p-4 mt-5">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="this.formularioModificar.invalid">Guardar
+            Registro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- FIN Modal_modificar_reuniones -->
+
+<!-- Modal_imprimir_reuniones -->
+<div class="modal fade animated fadeIn fast" id="myModal_mostrar" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">GOBIERNO AUTÓNOMO DEPARTAMENTAL DE
+          COCHABAMBA</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-3" id="htmlImprimir">
+
+        <!-- Imagenes -->
+        <div class="row">
+          <div class="col-12 d-flex justify-content-between">
+            <div class="">
+              <img width="140" src="../../../assets/img/escudo1.png" alt="">
+            </div>
+            <div class="">
+              <img width="70" src="../../../assets/img/esccocha.png" alt="">
+            </div>
+            <div class="">
+              <img width="140" src="../../../assets/img/escudo2.png" alt="">
+            </div>
+          </div>
+        </div>
+
+        <!-- Titulo gobernación -->
+        <div class="row">
+          <div class="col-12">
+            <div class="titulo-gobernacion">
+              GOBIERNO AUTÓNOMO DEPARTAMENTAL DE COCHABAMBA
+            </div>
+          </div>
+        </div>
+
+        <!-- Titulo principal de la reunión -->
+        <div class="row">
+          <div class="col-12">
+            <h3 class="text-uppercase text-center mt-4 fuente-mostrar motivo-principal">
+              {{ this.reunionMostrar?.motivo }}</h3>
+          </div>
+        </div>
+
+        <!-- Fecha reunión y prioridad -->
+        <div class="row">
+          <div class="col-12 estadistica">
+            <p class="text-uppercase mt-4 mb-0 fuente-mostrar parrafo-estadistica"><span
+                class="text-uppercase fuente-detalle">Prioridad:</span>
+              {{ this.reunionMostrar?.prioridad }}</p>
+
+            <p class="fuente-mostrar mb-0 parrafo-estadistica">
+              <span class="text-uppercase fuente-detalle">Fecha reunión</span>
+              {{ this.reunionMostrar?.fecha_reunion }}
+            </p>
+
+
+            <p class="fuente-mostrar parrafo-estadistica"
+              *ngIf="this.reunionMostrar?.estado_reunion;else estadoReunionMostrar"><span
+                class="text-uppercase fuente-detalle">Estado reunión: </span>
+              CONCLUIDO
+            </p>
+
+            <ng-template #estadoReunionMostrar>
+              <p class="fuente-mostrar parrafo-estadistica"><span class="text-uppercase fuente-detalle">Estado reunión:
+                </span>
+                PENDIENTE
+              </p>
+            </ng-template>
+
+          </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="row">
+          <div class="col-12" id="contenido-principal">
+            <div class="ql-container ql-snow" style="border-width: 0;">
+              <div class="ql-editor fuente-mostrar fuente-justificado" [innerHTML]="this.reunionMostrar?.asunto">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="modal-footer p-3 mt-5">
+        <button type="button" class="btn btn-secondary text-uppercase" data-bs-dismiss="modal">Cancelar</button>
+        <button (click)="this.imprimirPDF()" [useExistingCss]="true" printSectionId="htmlImprimir" ngxPrint
+          type="button" class="btn btn-primary text-uppercase" data-bs-dismiss="modal"><i class="fa fa-print"></i>
+          Imprimir</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- FIN Modal_imprimir_reuniones -->

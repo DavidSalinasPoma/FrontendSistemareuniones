@@ -11,6 +11,7 @@ export class MenunavegacionComponent implements OnInit {
 
   public usuario: any;
   public token: any;
+  public rol: any;
 
   constructor(
     private router: Router
@@ -22,6 +23,7 @@ export class MenunavegacionComponent implements OnInit {
       const { token, identity } = JSON.parse(user);
       this.usuario = identity;
       this.token = token;
+      this.rol = identity.rol;
     }
   }
   /**

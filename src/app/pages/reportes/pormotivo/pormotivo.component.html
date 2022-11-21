@@ -28,8 +28,9 @@
           </div>
 
           <div class="boton-reunion">
-            <button type="submit" class="btn btn-primary" [disabled]="this.formulario.invalid">BUSCAR REUNIÓN</button>
-            <button type="button" class="btn btn-danger text-white ms-1">LIMPIAR</button>
+            <button type="button" class="btn btn-danger text-white" (click)="this.limpiar()">LIMPIAR</button>
+            <button type="submit" class="btn btn-primary ms-2" [disabled]="this.formulario.invalid">BUSCAR
+              REUNIÓN</button>
           </div>
         </div>
 

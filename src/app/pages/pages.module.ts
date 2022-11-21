@@ -26,6 +26,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 // Para imrpimir en PDF
 import { NgxPrintModule } from 'ngx-print';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 
 
@@ -37,7 +38,8 @@ import { NgxPrintModule } from 'ngx-print';
     PorfechaComponent,
     PormotivoComponent,
     RangofechaComponent,
-    EstadoreunionComponent
+    EstadoreunionComponent,
+    UsuariosComponent
   ],
   imports: [
     CommonModule,

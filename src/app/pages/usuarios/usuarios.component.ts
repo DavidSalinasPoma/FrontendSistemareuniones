@@ -30,12 +30,13 @@ interface Estado {
   estado: string;
 }
 
+
 @Component({
-  selector: 'app-reuniones',
-  templateUrl: './reuniones.component.html',
-  styleUrls: ['./reuniones.component.css']
+  selector: 'app-usuarios',
+  templateUrl: './usuarios.component.html',
+  styleUrls: ['./usuarios.component.css']
 })
-export class ReunionesComponent implements OnInit {
+export class UsuariosComponent implements OnInit {
 
   // Formularios reactivos
   public formulario!: FormGroup;
@@ -51,8 +52,15 @@ export class ReunionesComponent implements OnInit {
     { value: 1, estado: 'Concluido' }
   ];
 
+  roles: Estado[] = [
+    { value: 0, estado: 'Secretaria' },
+    { value: 1, estado: 'Administrador' },
+  ];
+
   // Lista de todas reuniones
   public reuniones: any[] = [];
+
+  public usuarios: any[] = [];
 
   // loading
   public cargando: boolean = true;
@@ -86,14 +94,13 @@ export class ReunionesComponent implements OnInit {
     private toastr: ToastrService,
     private reunionesServices: ReunionesService
   ) {
-
     this.crearFormulario();
     this.crearFormularioModificar();
     moment.locale('es');
   }
 
   ngOnInit(): void {
-    this.indexReuniones();
+    this.indexUsuarios();
   }
 
   /**
@@ -101,13 +108,35 @@ export class ReunionesComponent implements OnInit {
   */
   public crearFormulario() {
     this.formulario = this.fb.group({
-      // nombres: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)])],
-      // apellidos: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)])],
-      motivo: ['', [Validators.required]],
-      asunto: ['', [Validators.required]],
-      prioridad: ['', [Validators.required]],
-      fecha_reunion: ['', [Validators.required]],
+      nombres: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)])],
+      apellidos: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)])],
+      email: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z0-9.!#$%&' * +/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)])],
+      password: ['', [Validators.required]],
+      rol: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
     });
+  }
+
+  // Validaciones para formulario
+  get nombres() {
+    return this.formulario.get('nombres');
+  }
+  get apellidos() {
+    return this.formulario.get('apellidos');
+  }
+  get email() {
+    return this.formulario.get('email');
+  }
+  get password() {
+    return this.formulario.get('password');
+  }
+
+  get rol() {
+    return this.formulario.get('rol');
+  }
+
+  get descripcion() {
+    return this.formulario.get('descripcion');
   }
 
   /**
@@ -124,51 +153,26 @@ export class ReunionesComponent implements OnInit {
     });
   }
 
-  // Validaciones para formulario
-  get motivo() {
-    return this.formulario.get('motivo');
-  }
-  get asunto() {
-    return this.formulario.get('asunto');
-  }
-  get prioridad() {
-    return this.formulario.get('prioridad');
-  }
-  get fecha_reunion() {
-    return this.formulario.get('fecha_reunion');
-  }
+
 
   /**
    * submit
    */
   public submit() {
 
-    let usuarioActual: any;
-    const infoToken = localStorage.getItem('token');
-    if (infoToken) {
-      const { identity } = JSON.parse(infoToken);
-      usuarioActual = identity;
-    }
-
-    const formData = {
-      motivo: (this.formulario.value.motivo).toUpperCase(),
-      asunto: this.formulario.value.asunto,
-      prioridad: this.formulario.value.prioridad,
-      fecha_reunion: new Date(this.formulario.value.fecha_reunion).toLocaleDateString(),
-      usuarios_id: usuarioActual.sub
-    }
-
-    this.usuarioServices.storeUsuario(formData)
+    this.usuarioServices.storeUsuarioDos(this.formulario.value)
       .subscribe(({ status, message }) => {
 
         if (status === 'success') {
           $('#myModal_agregar').modal('hide');
-          this.indexReuniones();
+          this.indexUsuarios();
           this.toastr.success(message, 'Sistema de Conflictos');
         } else {
           this.toastr.error(message, 'Sistema de Conflictos');
         }
       }, (err) => {
+        console.log(err);
+
         Swal.fire('Error', err.error.message, 'error')
       });
   }
@@ -192,12 +196,12 @@ export class ReunionesComponent implements OnInit {
   /**
    * indexReuniones
    */
-  public indexReuniones() {
+  public indexUsuarios() {
     this.cargando = true;
-    this.usuarioServices.indexUsuarios()
-      .subscribe(({ reuniones }) => {
+    this.usuarioServices.indexUsuariosDos()
+      .subscribe(({ usuarios }) => {
         // console.log(reuniones);
-        this.reuniones = reuniones.data;
+        this.usuarios = usuarios;
         this.cargando = false;
       })
   }
@@ -220,7 +224,7 @@ export class ReunionesComponent implements OnInit {
         this.usuarioServices.destroyPersona(id)
           .subscribe(({ status, message }) => {
             if (status === 'success') {
-              this.indexReuniones();
+              this.indexUsuarios();
               Swal.fire(
                 'Reunión dado de Baja!',
                 `${message}`,
@@ -255,7 +259,7 @@ export class ReunionesComponent implements OnInit {
 
     this.reunionesServices.updateReuniones(formData, this.idReunion)
       .subscribe(({ message }) => {
-        this.indexReuniones();
+        this.indexUsuarios();
         $('#myModal_modificar').modal('hide');
         Swal.fire({
           position: 'center',

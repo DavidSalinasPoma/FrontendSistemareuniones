@@ -14,11 +14,11 @@
           <a class="nav-link text-uppercase" [routerLink]="[ '/home' ]" routerLinkActive="active">Inicio</a>
         </li>
 
-        <li class="nav-item">
+        <li *ngIf="this.rol" class="nav-item">
           <a class="nav-link text-uppercase" [routerLink]="[ '/home/usuarios' ]" routerLinkActive="active">Usuarios</a>
         </li>
 
-        <li class="nav-item">
+        <li *ngIf="this.rol" class="nav-item">
           <a class="nav-link text-uppercase" [routerLink]="[ '/home/reuniones' ]"
             routerLinkActive="active">Reuniones</a>
         </li>

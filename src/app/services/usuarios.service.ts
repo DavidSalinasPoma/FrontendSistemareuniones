@@ -82,6 +82,15 @@ export class UsuariosService {
     return this.http.get<any>(base_url + '/api/reuniones', { headers: parameters });
   }
 
+  /**
+  * indexUsuarios
+  */
+  public indexUsuariosDos() {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token!);
+    return this.http.get<any>(base_url + '/api/user', { headers: parameters });
+  }
+
 
 
   /**
@@ -94,6 +103,15 @@ export class UsuariosService {
     let parameters = new HttpHeaders();
     parameters = parameters.set('token-usuario', this.token);
     return this.http.post<any>(base_url + '/api/reuniones', reuniones, { headers: parameters });
+  }
+
+  /**
+ * storeUsuario
+ */
+  public storeUsuarioDos(usuarios: any) {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token);
+    return this.http.post<any>(base_url + '/api/user', usuarios, { headers: parameters });
   }
 
 

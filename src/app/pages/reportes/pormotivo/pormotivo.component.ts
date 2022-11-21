@@ -61,10 +61,14 @@ export class PormotivoComponent implements OnInit {
    * submit
    */
   public submit() {
+    this.cargando = true;
+
     this.reunionesServices.buscarReuniones(this.formulario.value)
       .subscribe(({ reuniones }) => {
+        this.cargando = false;
         console.log(reuniones);
         this.reuniones = reuniones;
+        this.toastr.success('Reunión encontrada', 'Sistema de conflictos');
       })
   }
 
@@ -108,6 +112,12 @@ export class PormotivoComponent implements OnInit {
     $('#myModal_mostrar').modal('hide');
   }
 
+  /**
+  * limpiar
+  */
+  public limpiar() {
+    this.formulario.reset();
+  }
 
 }
 
