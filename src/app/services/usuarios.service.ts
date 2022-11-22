@@ -125,4 +125,22 @@ export class UsuariosService {
     return this.http.delete<any>(base_url + '/api/reuniones/' + id, { headers: parameters });
   }
 
+  /**
+   * eliminar Evento
+   */
+  public destroyUsuario(id: number) {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token);
+    return this.http.delete<any>(base_url + '/api/user/' + id, { headers: parameters });
+  }
+
+  /**
+    * Usuario Alta
+    */
+  public altaUsuario(id: number) {
+    let parameters = new HttpHeaders();
+    parameters = parameters.set('token-usuario', this.token);
+    return this.http.delete<any>(base_url + '/api/user/altausuario/' + id, { headers: parameters });
+  }
+
 }

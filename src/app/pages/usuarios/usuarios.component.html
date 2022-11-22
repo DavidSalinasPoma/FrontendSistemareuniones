@@ -48,7 +48,7 @@
               <th>Estado</th>
               <th>Descripción</th>
               <th>Rol</th>
-              <!-- <th>Acciones</th> -->
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody class="bg-white">
@@ -69,15 +69,17 @@
                 <td><span>Secretaria</span></td>
               </ng-template>
 
-              <!-- <td>
+              <td>
                 <div class="d-flex">
-                  <a (click)="this.modificarReunion(item.id)" class="ms-3 text-warning cursor-pointer"
-                    title="Editar Reunión"><i class="icon-font fa fa-pencil"></i></a>
+                  <a (click)="this.altaUsuario(item.id, item.nombres, item.apellidos)"
+                    class="ms-3 text-success cursor-pointer" title="Dar de alta a usuario"><i
+                      class="icon-font fa  fa-check"></i></a>
 
-                  <a (click)="this.destroyReunion(item.id, item.motivo)" class="ms-3 text-danger cursor-pointer"
-                    title="Dar de baja reunión"><i class="icon-font fa fa-trash"></i></a>
+                  <a (click)="this.destroyUsuario(item.id, item.nombres, item.apellidos)"
+                    class="ms-3 text-danger cursor-pointer" title="Dar de baja a usuario"><i
+                      class="icon-font fa fa-trash"></i></a>
                 </div>
-              </td> -->
+              </td>
             </tr>
           </tbody>
         </table>

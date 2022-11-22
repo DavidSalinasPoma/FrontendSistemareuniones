@@ -59,32 +59,43 @@ export class LoginComponent implements OnInit {
     this.usuarioServices.login(this.formulario.value)
       .subscribe(resp => {
 
-        if (resp.token) {
+        if (resp.identity.estado) {
 
-          this.cargando = false;
+          if (resp.token) {
 
-          this.router.navigateByUrl('/home');
+            this.cargando = false;
 
-          // remember
-          if (this.formulario.get('remember')?.value) {
-            localStorage.setItem('email', this.formulario.get('email')?.value)
+            this.router.navigateByUrl('/home');
+
+            // remember
+            if (this.formulario.get('remember')?.value) {
+              localStorage.setItem('email', this.formulario.get('email')?.value)
+            } else {
+              localStorage.removeItem('email');
+            }
+
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: '¡Login correcto!',
+              text: `Bienvenid@ ${resp.identity.nombres} ${resp.identity.apellidos}`,
+              showConfirmButton: false,
+              timer: 2000
+            })
           } else {
-            localStorage.removeItem('email');
+            Swal.fire({
+              icon: 'error',
+              title: 'Credenciales Incorrectas..!',
+              text: 'Vuelva a intentarlo!',
+              footer: 'Gobierno Autónomo Departamental de Cochabamba'
+            })
+            this.cargando = false;
           }
-
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: '¡Login correcto!',
-            text: `Bienvenid@ ${resp.identity.nombres} ${resp.identity.apellidos}`,
-            showConfirmButton: false,
-            timer: 2000
-          })
         } else {
           Swal.fire({
             icon: 'error',
-            title: 'Credenciales Incorrectas..!',
-            text: 'Vuelva a intentarlo!',
+            title: 'Ya no tienes acceso al sistema!',
+            text: 'Intente con otra cuenta..',
             footer: 'Gobierno Autónomo Departamental de Cochabamba'
           })
           this.cargando = false;

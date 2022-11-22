@@ -209,37 +209,92 @@ export class UsuariosComponent implements OnInit {
   /**
    * destroyPersona
    */
-  public destroyReunion(id: number, motivo: string) {
+  public destroyUsuario(id: number, nombres: string, apellidos: string) {
 
+
+    let usuarioActual: any;
+    const infoToken = localStorage.getItem('token');
+    if (infoToken) {
+      const { identity } = JSON.parse(infoToken);
+      usuarioActual = identity;
+    }
+
+    if (usuarioActual.sub != id) {
+
+      Swal.fire({
+        title: 'Esta Seguro de Eliminar?',
+        text: `Esta a punto de eliminar al usuario: ${nombres} ${apellidos}`,
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar!',
+        confirmButtonText: 'Si, dar de Baja!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.usuarioServices.destroyUsuario(id)
+            .subscribe(({ status, message }) => {
+              if (status === 'success') {
+                this.indexUsuarios();
+                Swal.fire(
+                  'Usuario dado de Baja!',
+                  `${message}`,
+                  'success'
+                );
+              }
+
+
+            }, (err) => {
+              Swal.fire('Error', err.error.message, 'error')
+            });
+        }
+      })
+
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Eliminación no valida..!',
+        text: 'No puedes eliminarte asi mismo..',
+        footer: 'Gobierno Autónomo Departamental de Cochabamba'
+      })
+    }
+
+  }
+
+  /**
+   * Alta a usuario
+   */
+  public altaUsuario(id: number, nombres: string, apellidos: string) {
 
     Swal.fire({
-      title: 'Esta Seguro de Eliminar?',
-      text: `Esta a punto de eliminar la reunión con motivo: ${motivo}`,
+      title: 'Esta Seguro de dar de alta?',
+      text: `Esta a punto de dar de alta a: ${nombres} ${apellidos}`,
       icon: 'question',
       showCancelButton: true,
       cancelButtonText: 'Cancelar!',
-      confirmButtonText: 'Si, dar de Baja!'
+      confirmButtonText: 'Si, dar de Alta!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usuarioServices.destroyPersona(id)
+        this.usuarioServices.altaUsuario(id)
           .subscribe(({ status, message }) => {
             if (status === 'success') {
               this.indexUsuarios();
               Swal.fire(
-                'Reunión dado de Baja!',
+                'Usuario dado de Alta!',
                 `${message}`,
                 'success'
               );
             }
-
-
           }, (err) => {
+            console.log(err);
+
             Swal.fire('Error', err.error.message, 'error')
           });
       }
     })
 
+
   }
+
+
 
   /**
    * submitModificar
