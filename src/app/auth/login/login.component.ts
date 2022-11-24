@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // Motras ntificaciones en tarjetas
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 // Para navegar de una pagina a otra
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -30,7 +31,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private usuarioServices: UsuariosService
+    private usuarioServices: UsuariosService,
+    private toastr: ToastrService,
   ) {
     this.crearFormulario();
   }
@@ -74,14 +76,16 @@ export class LoginComponent implements OnInit {
               localStorage.removeItem('email');
             }
 
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: '¡Login correcto!',
-              text: `Bienvenid@ ${resp.identity.nombres} ${resp.identity.apellidos}`,
-              showConfirmButton: false,
-              timer: 2000
-            })
+            this.toastr.success(`${resp.identity.nombres} ${resp.identity.apellidos}`, 'Bienvenid@');
+
+            // Swal.fire({
+            //   position: 'center',
+            //   icon: 'success',
+            //   title: '¡Login correcto!',
+            //   text: `Bienvenid@ ${resp.identity.nombres} ${resp.identity.apellidos}`,
+            //   showConfirmButton: false,
+            //   timer: 2000
+            // })
           } else {
             Swal.fire({
               icon: 'error',

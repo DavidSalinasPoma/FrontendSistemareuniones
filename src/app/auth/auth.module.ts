@@ -14,6 +14,9 @@ import { HttpClientModule } from "@angular/common/http";
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
+// Notificaciones Toastr
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import { RegisterComponent } from './register/register.component';
     PagesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   exports: [
     LoginComponent,
