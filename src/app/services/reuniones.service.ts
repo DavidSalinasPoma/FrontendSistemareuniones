@@ -60,8 +60,6 @@ export class ReunionesService {
  */
   public storeReuniones(reuniones: any) {
 
-    console.log(reuniones);
-
     let parameters = new HttpHeaders();
     parameters = parameters.set('token-usuario', this.token);
     return this.http.post<any>(base_url + '/api/reuniones', reuniones, { headers: parameters });

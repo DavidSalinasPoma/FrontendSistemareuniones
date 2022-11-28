@@ -24,7 +24,6 @@
 <div class="container mt-4 fade animated fadeIn fast">
 
   <!-- Loading -->
-
   <div *ngIf="this.cargando" class="row animated fadeIn fast">
     <div class="col-12">
       <div class="alert alert-primary text-center">
@@ -96,7 +95,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header bg-primary">
-        <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">REGISTRO DE CONFLICTOS</h1>
+        <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">REGISTRO DE REUNIONES</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -128,7 +127,7 @@
               <p class="m-t-30 mb-0">Fecha reunión:</p>
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Fecha reunión</mat-label>
-                <input formControlName="fecha_reunion" matInput [matDatepicker]="picker">
+                <input formControlName="fecha_reunion" matInput [matDatepicker]="picker" autocomplete="off" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <!-- Validacion -->
@@ -202,7 +201,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header bg-danger">
-        <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">MODIFICAR REGISTRO DE CONFLICTOS</h1>
+        <h1 class="modal-title fs-5 text-white display-6" id="exampleModalLabel">MODIFICAR REGISTRO DE REUNIONES</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -236,7 +235,8 @@
               <p class="m-t-30 mb-0">Fecha reunión:</p>
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Fecha reunión</mat-label>
-                <input formControlName="fecha_reunionModificar" matInput [matDatepicker]="pickerDos">
+                <input formControlName="fecha_reunionModificar" matInput [matDatepicker]="pickerDos" autocomplete="off"
+                  readonly>
                 <mat-datepicker-toggle matSuffix [for]="pickerDos"></mat-datepicker-toggle>
                 <mat-datepicker #pickerDos></mat-datepicker>
                 <!-- Validacion -->

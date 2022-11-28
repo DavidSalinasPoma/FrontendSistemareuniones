@@ -91,14 +91,12 @@ export class UsuariosService {
     return this.http.get<any>(base_url + '/api/user', { headers: parameters });
   }
 
-
-
   /**
    * storeUsuario
    */
   public storeUsuario(reuniones: any) {
 
-    console.log(reuniones);
+    // console.log(reuniones);
 
     let parameters = new HttpHeaders();
     parameters = parameters.set('token-usuario', this.token);

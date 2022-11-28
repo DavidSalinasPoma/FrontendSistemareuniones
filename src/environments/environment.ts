@@ -3,10 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  // base_url: "http://backendaguapotable.test"
-  base_url: "http://127.0.0.1:8000"
-  // base_url: "https://cobrosadmin.nikmelbo.com/laravel/public"
+  production: true,
+
+  base_url: "http://monitoreo-laravel.gobernaciondecochabamba.bo"
+  // base_url: "http://127.0.0.1:8000"
+
 };
 
 /*

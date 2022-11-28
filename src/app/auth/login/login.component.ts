@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
    */
   public crearFormulario() {
     this.formulario = this.fb.group({
-      email: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&' * +/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]],
+      usuario: ['', Validators.required],
       password: ['', Validators.required],
       remember: [false]
     })
@@ -57,6 +57,8 @@ export class LoginComponent implements OnInit {
 
     // Spinner de ingresando al sistema
     this.cargando = true;
+    console.log(this.formulario.value);
+
 
     this.usuarioServices.login(this.formulario.value)
       .subscribe(resp => {
@@ -71,9 +73,9 @@ export class LoginComponent implements OnInit {
 
             // remember
             if (this.formulario.get('remember')?.value) {
-              localStorage.setItem('email', this.formulario.get('email')?.value)
+              localStorage.setItem('usuario', this.formulario.get('usuario')?.value)
             } else {
-              localStorage.removeItem('email');
+              localStorage.removeItem('usuario');
             }
 
             this.toastr.success(`${resp.identity.nombres} ${resp.identity.apellidos}`, 'Bienvenid@');
@@ -106,20 +108,22 @@ export class LoginComponent implements OnInit {
         }
 
       }, (err) => {
+        console.log(err);
+
         Swal.fire('Error', err.error.message, 'error')
         this.cargando = false;
       });
   }
 
   // Validaciones para formulario
-  get evento() {
-    return this.formulario.get('email');
+  get usuario() {
+    return this.formulario.get('usuario');
   }
-  get descripcion() {
+  get password() {
     return this.formulario.get('password');
   }
-  get remenber() {
-    return this.formulario.get('remenber');
+  get remember() {
+    return this.formulario.get('remember');
   }
 
 }

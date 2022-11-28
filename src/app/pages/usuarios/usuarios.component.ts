@@ -110,7 +110,7 @@ export class UsuariosComponent implements OnInit {
     this.formulario = this.fb.group({
       nombres: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)])],
       apellidos: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)])],
-      email: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z0-9.!#$%&' * +/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)])],
+      usuario: ['', [Validators.required]],
       password: ['', [Validators.required]],
       rol: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
@@ -124,8 +124,8 @@ export class UsuariosComponent implements OnInit {
   get apellidos() {
     return this.formulario.get('apellidos');
   }
-  get email() {
-    return this.formulario.get('email');
+  get usuario() {
+    return this.formulario.get('usuario');
   }
   get password() {
     return this.formulario.get('password');

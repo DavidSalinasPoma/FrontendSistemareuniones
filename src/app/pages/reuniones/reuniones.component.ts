@@ -158,8 +158,11 @@ export class ReunionesComponent implements OnInit {
       usuarios_id: usuarioActual.sub
     }
 
+
+
     this.usuarioServices.storeUsuario(formData)
-      .subscribe(({ status, message }) => {
+      .subscribe(({ status, message, error }) => {
+        console.log(error);
 
         if (status === 'success') {
           $('#myModal_agregar').modal('hide');
@@ -169,6 +172,8 @@ export class ReunionesComponent implements OnInit {
           this.toastr.error(message, 'Sistema de Conflictos');
         }
       }, (err) => {
+        console.log(err);
+
         Swal.fire('Error', err.error.message, 'error')
       });
   }
@@ -179,14 +184,14 @@ export class ReunionesComponent implements OnInit {
    * blur
    */
   public blur() {
-    console.log('blur');
+    // console.log('blur');
   }
 
   /**
    * onSelectionChanged
    */
   public onSelectionChanged() {
-    console.log('onSelectionChanged');
+    // console.log('onSelectionChanged');
   }
 
   /**
@@ -250,9 +255,6 @@ export class ReunionesComponent implements OnInit {
       estado_reunion: this.formularioModificar.value.estado_reunion,
     }
 
-    console.log(formData);
-
-
     this.reunionesServices.updateReuniones(formData, this.idReunion)
       .subscribe(({ message }) => {
         this.indexReuniones();
@@ -276,16 +278,29 @@ export class ReunionesComponent implements OnInit {
    * modificarReunion
    */
   public modificarReunion(id: number) {
+
+    let fecha: string = '';
+
     this.idReunion = id;
 
     this.reunionesServices.showReuniones(id)
       .subscribe(({ reunion }) => {
 
+        let arrayCadenas = reunion.fecha_reunion.split('/');
+
+        const reverso = arrayCadenas.reverse()
+        reverso.forEach((element: any) => {
+          fecha = fecha + element + '-'
+        });
+
+        const ultimo = fecha.substring(0, fecha.length - 1);
+
         this.formularioModificar.setValue({
           motivoModificar: reunion.motivo,
           asuntoModificar: reunion.asunto,
           prioridadModificar: reunion.prioridad,
-          fecha_reunionModificar: new Date(moment(reunion.fecha_reunion).format('YYYY/MM/DD')).toISOString(),
+          fecha_reunionModificar: new Date(moment(ultimo).format('YYYY/MM/DD')).toISOString(),
+          // fecha_reunionModificar: (reunion.fecha_reunion).toISOString(),
           estado: reunion.estado,
           estado_reunion: reunion.estado_reunion
         });
